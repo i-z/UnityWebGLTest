@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en-us">
   <head>
     <meta charset="utf-8">
@@ -100,6 +100,8 @@
           progressBarEmpty.style.display = "";
           progressBarFull.style.width = `${100 * progress}%`;
         }).then((unityInstance) => {
+          window.mapPause  = function() { unityInstance.SendMessage("Game", "Pause") };
+          window.mapResume  = function() { unityInstance.SendMessage("Game", "Resume") };
           loadingCover.style.display = "none";
           if (canFullscreen) {
             if (!hideFullScreenButton) {
