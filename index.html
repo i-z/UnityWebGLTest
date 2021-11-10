@@ -1,7 +1,8 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en-us">
   <head>
     <meta charset="utf-8">
+    <title>WN Map</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <!--http://www.html5rocks.com/en/mobile/mobifying/-->
     <meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1, minimum-scale=1,maximum-scale=1"/>
@@ -31,10 +32,10 @@
     <!--<meta name="browsermode" content="application">-->
     <meta name="x5-page-mode" content="app">
 
-    <title>WN Hub - Expo</title>
-    <link rel="apple-touch-icon" sizes="180x180" href="TemplateData//favicon/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="TemplateData//favicon/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="TemplateData//favicon/favicon-16x16.png">
+    <title>PureMap1</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="TemplateData/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="TemplateData/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="TemplateData/favicon/favicon-16x16.png">
     <link rel="stylesheet" href="TemplateData/style.css">
   </head>
   <body class="dark">
@@ -43,6 +44,7 @@
     </div>
     <div id="splash">
       <div id="splash-logo">
+        <div id="lds-spinner" class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
         <div id="progress-bar">
           <div id="progress-bar-full"></div>
         </div>
@@ -50,16 +52,32 @@
     </div>
     <div id="unity-fullscreen-button" style="display: none;"></div>
     <script>
-      const hideFullScreenButton = "true";
+      window.addEventListener('resize', function(event) {
+        resizeSpinner()
+      }, true);
+      window.addEventListener('load', function(event) {
+        resizeSpinner()
+      }, true);
+      function resizeSpinner() {
+        const base = 500;
+        let box = document.getElementById('splash-logo').offsetWidth
+        let spinner = document.getElementById('lds-spinner')
+        if(box < base) {
+          scale = box / base
+        }
+        spinner.style.transform = "scale("+scale+")"
+        spinner.style.visibility = "visible"
+      }
+      const hideFullScreenButton = "";
       const buildUrl = "Build";
-      const loaderUrl = buildUrl + "/Builds.loader.js";
+      const loaderUrl = buildUrl + "/Build.loader.js";
       const config = {
-        dataUrl: buildUrl + "/Builds.data.unityweb",
-        frameworkUrl: buildUrl + "/Builds.framework.js.unityweb",
-        codeUrl: buildUrl + "/Builds.wasm.unityweb",
+        dataUrl: buildUrl + "/Build.data",
+        frameworkUrl: buildUrl + "/Build.framework.js",
+        codeUrl: buildUrl + "/Build.wasm",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "DefaultCompany",
-        productName: "WN Hub - Expo",
+        productName: "PureMap1",
         productVersion: "1.0",
       };
 
@@ -90,7 +108,6 @@
         container.className = "unity-mobile";
         config.devicePixelRatio = 1;
       }
-      canvas.style.background = "url('" + buildUrl + "/Builds.jpg') center / cover";
       loadingCover.style.display = "";
 
       const script = document.createElement("script");
